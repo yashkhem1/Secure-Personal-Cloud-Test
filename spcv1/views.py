@@ -122,11 +122,11 @@ class FileList(APIView):
         tok = request.META['HTTP_AUTHORIZATION']
         tok = tok[6:]
         gettok = Token.objects.filter(user=user_id)
-        # if(gettok[0].token) != tok:
-        #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if(gettok[0].token) != tok:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         j = request.data
-        if hashlib.md5(j["md5sum"].encode('utf-8')).hexdigest() != j['md5_upload']:
+        if hashlib.md5(j["data"].encode('utf-8')).hexdigest() != j['md5_upload']:
             print("NO")
             return Response("File not found", status=status.HTTP_400_BAD_REQUEST)
 
